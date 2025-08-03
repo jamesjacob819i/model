@@ -1,0 +1,1232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kynora - Discover Timeless Crafts</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #8B4513 0%, #CD853F 25%, #DEB887 50%, #F4A460 75%, #D2691E 100%);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .page {
+            display: none;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        /* Glassmorphism styles */
+        .glass {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 20px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+
+        .glass-dark {
+            background: rgba(139, 69, 19, 0.2);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Header */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+            margin-bottom: 30px;
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: 700;
+            color: #fff;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .header-icons {
+            display: flex;
+            gap: 15px;
+        }
+
+        .icon-btn {
+            width: 50px;
+            height: 50px;
+            border: none;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            color: #fff;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .icon-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.2);
+        }
+
+        .cart-count {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: #FF6B6B;
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            font-size: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        /* Landing Page */
+        .hero-section {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .hero-title {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 800;
+            color: #fff;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3);
+            line-height: 1.2;
+        }
+
+        .hero-subtitle {
+            font-size: clamp(1rem, 2.5vw, 1.5rem);
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 40px;
+            text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .shop-btn {
+            padding: 18px 40px;
+            font-size: 18px;
+            font-weight: 600;
+            color: #8B4513;
+            background: rgba(255, 255, 255, 0.9);
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+            margin-bottom: 50px;
+        }
+
+        .shop-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.25);
+            background: rgba(255, 255, 255, 1);
+        }
+
+        /* Top Sellers */
+        .section-title {
+            font-size: 32px;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 25px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .top-sellers {
+            margin-bottom: 40px;
+        }
+
+        .scroll-container {
+            display: flex;
+            gap: 20px;
+            overflow-x: auto;
+            padding: 20px 0;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+        }
+
+        .scroll-container::-webkit-scrollbar {
+            display: none;
+        }
+
+        .product-card {
+            min-width: 280px;
+            padding: 20px;
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .product-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .product-image {
+            width: 100%;
+            height: 200px;
+            border-radius: 15px;
+            object-fit: cover;
+            margin-bottom: 15px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        .product-name {
+            font-size: 18px;
+            font-weight: 600;
+            color: #fff;
+            margin-bottom: 8px;
+        }
+
+        .product-price {
+            font-size: 20px;
+            font-weight: 700;
+            color: #FFE4B5;
+        }
+
+        /* Shop Page */
+        .shop-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 25px;
+            margin-top: 30px;
+        }
+
+        .shop-card {
+            padding: 25px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .shop-card:hover {
+            transform: translateY(-8px);
+        }
+
+        .shop-image {
+            width: 100%;
+            height: 250px;
+            border-radius: 15px;
+            object-fit: cover;
+            margin-bottom: 20px;
+        }
+
+        .shop-name {
+            font-size: 20px;
+            font-weight: 600;
+            color: #fff;
+            margin-bottom: 10px;
+        }
+
+        .shop-description {
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 15px;
+            line-height: 1.4;
+        }
+
+        .shop-price {
+            font-size: 22px;
+            font-weight: 700;
+            color: #FFE4B5;
+            margin-bottom: 20px;
+        }
+
+        .add-to-cart-btn {
+            width: 100%;
+            padding: 12px;
+            background: rgba(255, 255, 255, 0.2);
+            color: #fff;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .add-to-cart-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
+
+        /* Modal */
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            padding: 20px;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            max-width: 500px;
+            width: 100%;
+            padding: 30px;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: none;
+            border: none;
+            font-size: 24px;
+            color: #fff;
+            cursor: pointer;
+        }
+
+        .modal-image {
+            width: 100%;
+            height: 300px;
+            border-radius: 15px;
+            object-fit: cover;
+            margin-bottom: 20px;
+        }
+
+        .buy-now-btn {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(45deg, #FF6B6B, #FF8E53);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .buy-now-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(255, 107, 107, 0.4);
+        }
+
+        /* Payment Page */
+        .payment-container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 30px;
+        }
+
+        .order-summary {
+            margin-bottom: 30px;
+            padding: 25px;
+        }
+
+        .summary-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+            color: #fff;
+        }
+
+        .total {
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+            padding-top: 15px;
+            font-size: 20px;
+            font-weight: 700;
+        }
+
+        .payment-options {
+            padding: 25px;
+        }
+
+        .payment-method {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            margin-bottom: 15px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .payment-method:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .payment-method input {
+            margin-right: 15px;
+        }
+
+        .place-order-btn {
+            width: 100%;
+            padding: 18px;
+            background: linear-gradient(45deg, #4CAF50, #45a049);
+            color: white;
+            border: none;
+            border-radius: 15px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 30px;
+            transition: all 0.3s ease;
+        }
+
+        .place-order-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(76, 175, 80, 0.4);
+        }
+
+        .back-btn {
+            padding: 12px 25px;
+            background: rgba(255, 255, 255, 0.1);
+            color: #fff;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
+            cursor: pointer;
+            margin-bottom: 30px;
+            transition: all 0.3s ease;
+        }
+
+        .back-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        /* Liquid Glass Search Bar */
+        .search-bar-container {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 900;
+            width: 90%;
+            max-width: 400px;
+        }
+
+        .search-bar {
+            width: 100%;
+            padding: 18px 25px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 50px;
+            color: #fff;
+            font-size: 16px;
+            outline: none;
+            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .search-bar::placeholder {
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .search-bar:focus {
+            background: rgba(255, 255, 255, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2);
+            transform: scale(1.02);
+        }
+
+        .search-bar:focus::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        /* Cart Page Styles */
+        .cart-container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 30px;
+        }
+
+        .cart-item {
+            display: flex;
+            align-items: center;
+            padding: 20px;
+            margin-bottom: 15px;
+            transition: all 0.3s ease;
+        }
+
+        .cart-item:hover {
+            transform: translateY(-2px);
+        }
+
+        .cart-item-image {
+            width: 80px;
+            height: 80px;
+            border-radius: 12px;
+            object-fit: cover;
+            margin-right: 20px;
+        }
+
+        .cart-item-details {
+            flex: 1;
+            color: #fff;
+        }
+
+        .cart-item-name {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .cart-item-price {
+            font-size: 16px;
+            color: #FFE4B5;
+            font-weight: 500;
+        }
+
+        .cart-item-controls {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .quantity-controls {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 25px;
+            padding: 8px 15px;
+        }
+
+        .quantity-btn {
+            background: none;
+            border: none;
+            color: #fff;
+            font-size: 18px;
+            cursor: pointer;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .quantity-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .quantity-display {
+            color: #fff;
+            font-weight: 600;
+            min-width: 20px;
+            text-align: center;
+        }
+
+        .remove-btn {
+            background: rgba(255, 107, 107, 0.2);
+            border: 1px solid rgba(255, 107, 107, 0.3);
+            color: #FF6B6B;
+            border-radius: 8px;
+            padding: 8px 12px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+
+        .remove-btn:hover {
+            background: rgba(255, 107, 107, 0.3);
+            transform: scale(1.05);
+        }
+
+        .empty-cart {
+            text-align: center;
+            padding: 60px 20px;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .empty-cart-icon {
+            font-size: 80px;
+            margin-bottom: 20px;
+            opacity: 0.5;
+        }
+
+        .empty-cart-text {
+            font-size: 18px;
+            margin-bottom: 30px;
+        }
+
+        .cart-summary {
+            position: sticky;
+            bottom: 0;
+            background: rgba(139, 69, 19, 0.3);
+            backdrop-filter: blur(20px);
+            padding: 25px;
+            margin-top: 30px;
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+            color: #fff;
+        }
+
+        .summary-total {
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+            padding-top: 15px;
+            font-size: 20px;
+            font-weight: 700;
+        }
+
+        .checkout-btn {
+            width: 100%;
+            padding: 18px;
+            background: linear-gradient(45deg, #FF6B6B, #FF8E53);
+            color: white;
+            border: none;
+            border-radius: 15px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .checkout-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(255, 107, 107, 0.4);
+        }
+
+        .checkout-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* Search Results */
+        .search-results {
+            position: fixed;
+            bottom: 120px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 90%;
+            max-width: 400px;
+            max-height: 300px;
+            overflow-y: auto;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(25px);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            display: none;
+            z-index: 950;
+        }
+
+        .search-result-item {
+            padding: 15px 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            cursor: pointer;
+            color: #fff;
+            transition: all 0.3s ease;
+        }
+
+        .search-result-item:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .search-result-item:last-child {
+            border-bottom: none;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .header {
+                padding: 15px 10px;
+            }
+
+            .shop-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .product-card {
+                min-width: 250px;
+            }
+
+            .hero-title {
+                font-size: 2.5rem;
+            }
+
+            .payment-container {
+                padding: 20px 10px;
+            }
+
+            .cart-container {
+                padding: 20px 10px;
+            }
+
+            .cart-item {
+                flex-direction: column;
+                text-align: center;
+                gap: 15px;
+            }
+
+            .cart-item-image {
+                margin-right: 0;
+                margin-bottom: 10px;
+            }
+
+            .search-bar-container {
+                width: 95%;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .page {
+                padding: 15px 10px;
+            }
+
+            .product-card {
+                min-width: 220px;
+            }
+
+            .modal-content {
+                padding: 20px;
+            }
+
+            .cart-item-controls {
+                flex-direction: column;
+                gap: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Landing Page -->
+    <div id="landing" class="page active">
+        <header class="header glass">
+            <div class="logo">Kynora</div>
+            <div class="header-icons">
+                <button class="icon-btn glass" onclick="showPage('profile')">👤</button>
+                <button class="icon-btn glass" onclick="showPage('cart')">
+                    🛒
+                    <span class="cart-count" id="cartCount">0</span>
+                </button>
+            </div>
+        </header>
+
+        <div class="hero-section">
+            <h1 class="hero-title">Discover Timeless<br>Crafts of India</h1>
+            <p class="hero-subtitle">Handcrafted treasures from skilled artisans across the nation</p>
+            <button class="shop-btn" onclick="showPage('shop')">Explore Shop</button>
+        </div>
+
+        <div class="top-sellers">
+            <h2 class="section-title">Top Sellers</h2>
+            <div class="scroll-container">
+                <div class="product-card glass" onclick="openModal('Handwoven Silk Saree', '₹8,999', 'https://images.unsplash.com/photo-1610030469983-98e550d6193c?w=400')">
+                    <img src="https://images.unsplash.com/photo-1610030469983-98e550d6193c?w=400" alt="Silk Saree" class="product-image">
+                    <div class="product-name">Handwoven Silk Saree</div>
+                    <div class="product-price">₹8,999</div>
+                </div>
+                <div class="product-card glass" onclick="openModal('Brass Elephant Sculpture', '₹2,499', 'https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=400')">
+                    <img src="https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=400" alt="Brass Sculpture" class="product-image">
+                    <div class="product-name">Brass Elephant Sculpture</div>
+                    <div class="product-price">₹2,499</div>
+                </div>
+                <div class="product-card glass" onclick="openModal('Madhubani Painting', '₹1,799', 'https://images.unsplash.com/photo-1582555172866-f73bb12a2ab3?w=400')">
+                    <img src="https://images.unsplash.com/photo-1582555172866-f73bb12a2ab3?w=400" alt="Madhubani Art" class="product-image">
+                    <div class="product-name">Madhubani Painting</div>
+                    <div class="product-price">₹1,799</div>
+                </div>
+                <div class="product-card glass" onclick="openModal('Wooden Jewelry Box', '₹1,299', 'https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=400')">
+                    <img src="https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=400" alt="Wooden Box" class="product-image">
+                    <div class="product-name">Wooden Jewelry Box</div>
+                    <div class="product-price">₹1,299</div>
+                </div>
+                <div class="product-card glass" onclick="openModal('Blue Pottery Vase', '₹899', 'https://images.unsplash.com/photo-1578749556568-bc2c40e68b61?w=400')">
+                    <img src="https://images.unsplash.com/photo-1578749556568-bc2c40e68b61?w=400" alt="Blue Pottery" class="product-image">
+                    <div class="product-name">Blue Pottery Vase</div>
+                    <div class="product-price">₹899</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Shop Page -->
+    <div id="shop" class="page">
+        <header class="header glass">
+            <div class="logo">Kynora</div>
+            <div class="header-icons">
+                <button class="icon-btn glass" onclick="showPage('profile')">👤</button>
+                <button class="icon-btn glass" onclick="showPage('cart')">
+                    🛒
+                    <span class="cart-count" id="cartCount2">0</span>
+                </button>
+            </div>
+        </header>
+
+        <button class="back-btn" onclick="showPage('landing')">← Back to Home</button>
+
+        <h2 class="section-title">Craft Collection</h2>
+        <div class="shop-grid">
+            <div class="shop-card glass" onclick="openModal('Kashmiri Pashmina Shawl', '₹12,999', 'https://images.unsplash.com/photo-1594736797933-d0b22d3fdf95?w=400', 'Luxurious handwoven Pashmina shawl from Kashmir, made from the finest goat wool.')">
+                <img src="https://images.unsplash.com/photo-1594736797933-d0b22d3fdf95?w=400" alt="Pashmina" class="shop-image">
+                <div class="shop-name">Kashmiri Pashmina Shawl</div>
+                <div class="shop-description">Luxurious handwoven Pashmina shawl from Kashmir, made from the finest goat wool.</div>
+                <div class="shop-price">₹12,999</div>
+                <button class="add-to-cart-btn" onclick="event.stopPropagation(); addToCart('Kashmiri Pashmina Shawl', 12999)">Add to Cart</button>
+            </div>
+            
+            <div class="shop-card glass" onclick="openModal('Tanjore Painting', '₹4,599', 'https://images.unsplash.com/photo-1582555172866-f73bb12a2ab3?w=400', 'Traditional Tanjore painting with gold foil work, depicting Lord Ganesha.')">
+                <img src="https://images.unsplash.com/photo-1582555172866-f73bb12a2ab3?w=400" alt="Tanjore" class="shop-image">
+                <div class="shop-name">Tanjore Painting</div>
+                <div class="shop-description">Traditional Tanjore painting with gold foil work, depicting Lord Ganesha.</div>
+                <div class="shop-price">₹4,599</div>
+                <button class="add-to-cart-btn" onclick="event.stopPropagation(); addToCart('Tanjore Painting', 4599)">Add to Cart</button>
+            </div>
+
+            <div class="shop-card glass" onclick="openModal('Sandalwood Carved Box', '₹2,199', 'https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=400', 'Intricately carved sandalwood jewelry box with traditional motifs.')">
+                <img src="https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=400" alt="Sandalwood" class="shop-image">
+                <div class="shop-name">Sandalwood Carved Box</div>
+                <div class="shop-description">Intricately carved sandalwood jewelry box with traditional motifs.</div>
+                <div class="shop-price">₹2,199</div>
+                <button class="add-to-cart-btn" onclick="event.stopPropagation(); addToCart('Sandalwood Carved Box', 2199)">Add to Cart</button>
+            </div>
+
+            <div class="shop-card glass" onclick="openModal('Dhokra Metal Craft', '₹1,899', 'https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=400', 'Ancient Dhokra metal casting technique elephant figurine from Odisha.')">
+                <img src="https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=400" alt="Dhokra" class="shop-image">
+                <div class="shop-name">Dhokra Metal Craft</div>
+                <div class="shop-description">Ancient Dhokra metal casting technique elephant figurine from Odisha.</div>
+                <div class="shop-price">₹1,899</div>
+                <button class="add-to-cart-btn" onclick="event.stopPropagation(); addToCart('Dhokra Metal Craft', 1899)">Add to Cart</button>
+            </div>
+
+            <div class="shop-card glass" onclick="openModal('Ajrak Block Print Dupatta', '₹999', 'https://images.unsplash.com/photo-1610030469983-98e550d6193c?w=400', 'Traditional Ajrak block printed dupatta from Rajasthan with natural dyes.')">
+                <img src="https://images.unsplash.com/photo-1610030469983-98e550d6193c?w=400" alt="Ajrak" class="shop-image">
+                <div class="shop-name">Ajrak Block Print Dupatta</div>
+                <div class="shop-description">Traditional Ajrak block printed dupatta from Rajasthan with natural dyes.</div>
+                <div class="shop-price">₹999</div>
+                <button class="add-to-cart-btn" onclick="event.stopPropagation(); addToCart('Ajrak Block Print Dupatta', 999)">Add to Cart</button>
+            </div>
+
+            <div class="shop-card glass" onclick="openModal('Channapatna Wooden Toys', '₹799', 'https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=400', 'Colorful lacquered wooden toys from Channapatna, Karnataka.')">
+                <img src="https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=400" alt="Toys" class="shop-image">
+                <div class="shop-name">Channapatna Wooden Toys</div>
+                <div class="shop-description">Colorful lacquered wooden toys from Channapatna, Karnataka.</div>
+                <div class="shop-price">₹799</div>
+                <button class="add-to-cart-btn" onclick="event.stopPropagation(); addToCart('Channapatna Wooden Toys', 799)">Add to Cart</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Cart Page -->
+    <div id="cart" class="page">
+        <header class="header glass">
+            <div class="logo">Kynora</div>
+            <div class="header-icons">
+                <button class="icon-btn glass" onclick="showPage('profile')">👤</button>
+                <button class="icon-btn glass" onclick="showPage('cart')">
+                    🛒
+                    <span class="cart-count" id="cartCount4">0</span>
+                </button>
+            </div>
+        </header>
+
+        <div class="cart-container">
+            <button class="back-btn" onclick="showPage('shop')">← Back to Shop</button>
+            
+            <h2 class="section-title">Shopping Cart</h2>
+            
+            <div id="cartItems">
+                <!-- Cart items will be dynamically inserted here -->
+            </div>
+
+            <div id="emptyCart" class="empty-cart" style="display: none;">
+                <div class="empty-cart-icon">🛒</div>
+                <div class="empty-cart-text">Your cart is empty</div>
+                <button class="shop-btn" onclick="showPage('shop')">Start Shopping</button>
+            </div>
+
+            <div id="cartSummary" class="cart-summary" style="display: none;">
+                <div class="summary-row">
+                    <span>Subtotal:</span>
+                    <span id="cartSubtotal">₹0</span>
+                </div>
+                <div class="summary-row">
+                    <span>Shipping:</span>
+                    <span>₹99</span>
+                </div>
+                <div class="summary-row summary-total">
+                    <span>Total:</span>
+                    <span id="cartTotal">₹0</span>
+                </div>
+                <button class="checkout-btn" onclick="proceedToCheckout()" id="checkoutBtn">
+                    Proceed to Checkout
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Payment Page -->
+    <div id="payment" class="page">
+        <header class="header glass">
+            <div class="logo">Kynora</div>
+            <div class="header-icons">
+                <button class="icon-btn glass" onclick="showPage('profile')">👤</button>
+                <button class="icon-btn glass" onclick="showPage('cart')">
+                    🛒
+                    <span class="cart-count" id="cartCount3">0</span>
+                </button>
+            </div>
+        </header>
+
+        <div class="payment-container">
+            <button class="back-btn" onclick="showPage('shop')">← Back to Shop</button>
+            
+            <div class="order-summary glass">
+                <h3 class="section-title" style="margin-bottom: 20px; font-size: 24px;">Order Summary</h3>
+                <div id="orderItems">
+                    <!-- Dynamic order items will be inserted here -->
+                </div>
+                <div class="summary-item total">
+                    <span>Total:</span>
+                    <span id="totalPrice">₹0</span>
+                </div>
+            </div>
+
+            <div class="payment-options glass">
+                <h3 class="section-title" style="margin-bottom: 20px; font-size: 24px; color: #fff;">Payment Method</h3>
+                <div class="payment-method">
+                    <input type="radio" name="payment" value="card" checked>
+                    <span style="color: #fff;">💳 Credit/Debit Card</span>
+                </div>
+                <div class="payment-method">
+                    <input type="radio" name="payment" value="upi">
+                    <span style="color: #fff;">📱 UPI Payment</span>
+                </div>
+                <div class="payment-method">
+                    <input type="radio" name="payment" value="wallet">
+                    <span style="color: #fff;">💰 Digital Wallet</span>
+                </div>
+                <div class="payment-method">
+                    <input type="radio" name="payment" value="cod">
+                    <span style="color: #fff;">🚚 Cash on Delivery</span>
+                </div>
+            </div>
+
+            <button class="place-order-btn" onclick="placeOrder()">Place Order</button>
+        </div>
+    </div>
+
+    <!-- Liquid Glass Search Bar -->
+    <div class="search-bar-container">
+        <input type="text" class="search-bar" placeholder="Search for crafts, artisans, and more..." 
+               id="searchInput" oninput="handleSearch()" onfocus="showSearchResults()" onblur="hideSearchResults()">
+    </div>
+
+    <!-- Search Results -->
+    <div id="searchResults" class="search-results">
+        <!-- Search results will be dynamically inserted here -->
+    </div>
+
+    <!-- Product Modal -->
+    <div id="productModal" class="modal">
+        <div class="modal-content glass">
+            <button class="close-btn" onclick="closeModal()">✕</button>
+            <img id="modalImage" src="" alt="" class="modal-image">
+            <h3 id="modalName" class="shop-name"></h3>
+            <p id="modalDescription" class="shop-description"></p>
+            <div id="modalPrice" class="shop-price"></div>
+            <button class="buy-now-btn" onclick="buyNow()">Buy Now</button>
+        </div>
+    </div>
+
+    <script>
+        let cart = [];
+        let currentProduct = null;
+        
+        // Product database for search functionality
+        const products = [
+            { name: 'Handwoven Silk Saree', price: 8999, image: 'https://images.unsplash.com/photo-1610030469983-98e550d6193c?w=400', description: 'Traditional handwoven silk saree with intricate patterns' },
+            { name: 'Brass Elephant Sculpture', price: 2499, image: 'https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=400', description: 'Handcrafted brass elephant sculpture' },
+            { name: 'Madhubani Painting', price: 1799, image: 'https://images.unsplash.com/photo-1582555172866-f73bb12a2ab3?w=400', description: 'Traditional Madhubani folk art painting' },
+            { name: 'Wooden Jewelry Box', price: 1299, image: 'https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=400', description: 'Handcrafted wooden jewelry box with carvings' },
+            { name: 'Blue Pottery Vase', price: 899, image: 'https://images.unsplash.com/photo-1578749556568-bc2c40e68b61?w=400', description: 'Traditional blue pottery vase from Jaipur' },
+            { name: 'Kashmiri Pashmina Shawl', price: 12999, image: 'https://images.unsplash.com/photo-1594736797933-d0b22d3fdf95?w=400', description: 'Luxurious handwoven Pashmina shawl from Kashmir' },
+            { name: 'Tanjore Painting', price: 4599, image: 'https://images.unsplash.com/photo-1582555172866-f73bb12a2ab3?w=400', description: 'Traditional Tanjore painting with gold foil work' },
+            { name: 'Sandalwood Carved Box', price: 2199, image: 'https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=400', description: 'Intricately carved sandalwood jewelry box' },
+            { name: 'Dhokra Metal Craft', price: 1899, image: 'https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=400', description: 'Ancient Dhokra metal casting technique figurine' },
+            { name: 'Ajrak Block Print Dupatta', price: 999, image: 'https://images.unsplash.com/photo-1610030469983-98e550d6193c?w=400', description: 'Traditional Ajrak block printed dupatta' },
+            { name: 'Channapatna Wooden Toys', price: 799, image: 'https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=400', description: 'Colorful lacquered wooden toys from Karnataka' }
+        ];
+
+        function showPage(pageId) {
+            document.querySelectorAll('.page').forEach(page => {
+                page.classList.remove('active');
+            });
+            document.getElementById(pageId).classList.add('active');
+            updateCartCount();
+            
+            if (pageId === 'cart') {
+                renderCartItems();
+            }
+        }
+
+        function openModal(name, price, image, description = '') {
+            const product = products.find(p => p.name === name) || { name, price: parseInt(price.replace('₹', '').replace(',', '')), image, description };
+            currentProduct = product;
+            document.getElementById('modalName').textContent = name;
+            document.getElementById('modalPrice').textContent = `₹${product.price.toLocaleString()}`;
+            document.getElementById('modalImage').src = image;
+            document.getElementById('modalDescription').textContent = description;
+            document.getElementById('productModal').classList.add('active');
+        }
+
+        function closeModal() {
+            document.getElementById('productModal').classList.remove('active');
+        }
+
+        function addToCart(name, price) {
+            const existingItem = cart.find(item => item.name === name);
+            const product = products.find(p => p.name === name) || { name, price, image: '', description: '' };
+            
+            if (existingItem) {
+                existingItem.quantity += 1;
+            } else {
+                cart.push({ 
+                    ...product,
+                    price: typeof price === 'string' ? parseInt(price.replace('₹', '').replace(',', '')) : price,
+                    quantity: 1,
+                    id: Date.now() + Math.random()
+                });
+            }
+            
+            updateCartCount();
+            
+            // Show feedback
+            const btn = event.target;
+            const originalText = btn.textContent;
+            btn.textContent = 'Added! ✓';
+            btn.style.background = 'rgba(76, 175, 80, 0.3)';
+            
+            setTimeout(() => {
+                btn.textContent = originalText;
+                btn.style.background = 'rgba(255, 255, 255, 0.2)';
+            }, 1500);
+        }
+
+        function updateQuantity(itemId, change) {
+            const item = cart.find(item => item.id === itemId);
+            if (item) {
+                item.quantity += change;
+                if (item.quantity <= 0) {
+                    removeFromCart(itemId);
+                } else {
+                    renderCartItems();
+                    updateCartCount();
+                }
+            }
+        }
+
+        function removeFromCart(itemId) {
+            cart = cart.filter(item => item.id !== itemId);
+            renderCartItems();
+            updateCartCount();
+        }
+
+        function renderCartItems() {
+            const cartItemsContainer = document.getElementById('cartItems');
+            const emptyCart = document.getElementById('emptyCart');
+            const cartSummary = document.getElementById('cartSummary');
+            
+            if (cart.length === 0) {
+                cartItemsContainer.innerHTML = '';
+                emptyCart.style.display = 'block';
+                cartSummary.style.display = 'none';
+                return;
+            }
+            
+            emptyCart.style.display = 'none';
+            cartSummary.style.display = 'block';
+            
+            cartItemsContainer.innerHTML = cart.map(item => `
+                <div class="cart-item glass">
+                    <img src="${item.image}" alt="${item.name}" class="cart-item-image">
+                    <div class="cart-item-details">
+                        <div class="cart-item-name">${item.name}</div>
+                        <div class="cart-item-price">₹${item.price.toLocaleString()}</div>
+                    </div>
+                    <div class="cart-item-controls">
+                        <div class="quantity-controls">
+                            <button class="quantity-btn" onclick="updateQuantity('${item.id}', -1)">-</button>
+                            <span class="quantity-display">${item.quantity}</span>
+                            <button class="quantity-btn" onclick="updateQuantity('${item.id}', 1)">+</button>
+                        </div>
+                        <button class="remove-btn" onclick="removeFromCart('${item.id}')">Remove</button>
+                    </div>
+                </div>
+            `).join('');
+            
+            updateCartSummary();
+        }
+
+        function updateCartSummary() {
+            const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            const shipping = cart.length > 0 ? 99 : 0;
+            const total = subtotal + shipping;
+            
+            document.getElementById('cartSubtotal').textContent = `₹${subtotal.toLocaleString()}`;
+            document.getElementById('cartTotal').textContent = `₹${total.toLocaleString()}`;
+        }
+
+        function proceedToCheckout() {
+            showPage('payment');
+            updateOrderSummary();
+        }
+
+        function buyNow() {
+            if (currentProduct) {
+                cart = [{ 
+                    ...currentProduct,
+                    quantity: 1,
+                    id: Date.now()
+                }];
+                updateCartCount();
+                closeModal();
+                showPaymentPage();
+            }
+        }
+
+        function updateCartCount() {
+            const count = cart.reduce((sum, item) => sum + item.quantity, 0);
+            document.getElementById('cartCount').textContent = count;
+            document.getElementById('cartCount2').textContent = count;
+            document.getElementById('cartCount3').textContent = count;
+            document.getElementById('cartCount4').textContent = count;
+        }
+
+        function showPaymentPage() {
+            showPage('payment');
+            updateOrderSummary();
+        }
+
+        function updateOrderSummary() {
+            const orderItems = document.getElementById('orderItems');
+            const totalPrice = document.getElementById('totalPrice');
+            
+            orderItems.innerHTML = '';
+            let subtotal = 0;
+            
+            cart.forEach(item => {
+                const itemTotal = item.price * item.quantity;
+                const itemDiv = document.createElement('div');
+                itemDiv.className = 'summary-item';
+                itemDiv.innerHTML = `
+                    <span>${item.name} (x${item.quantity})</span>
+                    <span>₹${itemTotal.toLocaleString()}</span>
+                `;
+                orderItems.appendChild(itemDiv);
+                subtotal += itemTotal;
+            });
+            
+            // Add shipping
+            const shippingDiv = document.createElement('div');
+            shippingDiv.className = 'summary-item';
+            shippingDiv.innerHTML = `<span>Shipping</span><span>₹99</span>`;
+            orderItems.appendChild(shippingDiv);
+            
+            const total = subtotal + 99;
+            totalPrice.textContent = `₹${total.toLocaleString()}`;
+        }
+
+        function placeOrder() {
+            alert('🎉 Order placed successfully! Your handcrafted treasures will be delivered soon.');
+            cart = [];
+            updateCartCount();
+            showPage('landing');
+        }
+
+        // Search functionality
+        function handleSearch() {
+            const query = document.getElementById('searchInput').value.toLowerCase();
+            const resultsContainer = document.getElementById('searchResults');
+            
+            if (query.length === 0) {
+                resultsContainer.style.display = 'none';
+                return;
+            }
+            
+            const filteredProducts = products.filter(product => 
+                product.name.toLowerCase().includes(query) || 
+                product.description.toLowerCase().includes(query)
+            );
+            
+            if (filteredProducts.length > 0) {
+                resultsContainer.innerHTML = filteredProducts.map(product => `
+                    <div class="search-result-item" onclick="selectSearchResult('${product.name}', '${product.price}', '${product.image}', '${product.description}')">
+                        ${product.name} - ₹${product.price.toLocaleString()}
+                    </div>
+                `).join('');
+                resultsContainer.style.display = 'block';
+            } else {
+                resultsContainer.innerHTML = '<div class="search-result-item">No products found</div>';
+                resultsContainer.style.display = 'block';
+            }
+        }
+
+        function selectSearchResult(name, price, image, description) {
+            openModal(name, `₹${price}`, image, description);
+            document.getElementById('searchInput').value = '';
+            document.getElementById('searchResults').style.display = 'none';
+        }
+
+        function showSearchResults() {
+            const query = document.getElementById('searchInput').value;
+            if (query.length > 0) {
+                document.getElementById('searchResults').style.display = 'block';
+            }
+        }
+
+        function hideSearchResults() {
+            setTimeout(() => {
+                document.getElementById('searchResults').style.display = 'none';
+            }, 200);
+        }
+
+        // Close modal when clicking outside
+        document.getElementById('productModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeModal();
+            }
+        });
+
+        // Initialize cart count on page load
+        updateCartCount();
+
+    </script>
+</body>
+</html>
