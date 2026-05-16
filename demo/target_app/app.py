@@ -63,7 +63,7 @@ def checkout():
     try:
         is_intentionally_buggy = os.getenv("BUGGY_VERSION", "0") == "1"
         if is_intentionally_buggy:
-            if coupon_code and len(coupon_code) > 0:
+            if coupon_code:
                 if coupon_code == "BUGGY":
                     discount = calculate_discount(coupon_code)
                 discount = calculate_discount_buggy(coupon_code)
