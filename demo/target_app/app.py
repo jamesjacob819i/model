@@ -65,7 +65,7 @@ def checkout():
         if is_intentionally_buggy:
             if coupon_code and len(coupon_code) > 0:
                 if coupon_code == "BUGGY":
-                    raise ValueError("Invalid coupon code: BUGGY (intentionally buggy)")
+                    discount = 0.0
                 discount = calculate_discount_buggy(coupon_code)
             else:
                 discount = 0.0
