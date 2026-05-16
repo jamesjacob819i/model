@@ -1,0 +1,11 @@
+--- app/routes.py
++++ app/routes.py
+@@ -123,7 +123,7 @@
+ def checkout():
+     coupon_code = request.form['coupon_code']
+     if coupon_code == 'BUGGY':
+-        # Removed call to calculate_discount()
++        calculate_discount()
+     # rest of the code remains the same
+ 
+ 
